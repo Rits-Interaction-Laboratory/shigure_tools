@@ -1,0 +1,66 @@
+# ROS Settings
+if [ -d /opt/ros/melodic ]; then
+melodic-setup() {
+  source /opt/ros/melodic/setup.bash
+}
+if [ -d /opt/ros/noetic ]; then
+  noetic-setup() {
+    source /opt/ros/noetic/setup.bash
+  }
+fi
+
+# ROS2 Settings
+if [ -d /opt/ros/dashing ]; then
+dashing-setup() {
+  source /opt/ros/dashing/setup.bash
+}
+if [ -d /opt/ros/foxy ]; then
+foxy-setup() {
+  source /opt/ros/foxy/setup.bash
+}
+if [ -d /opt/ros/humble ]; then
+humble-setup() {
+  source /opt/ros/foxy/setup.bash
+}
+
+# Change ROS_DOMAIN_ID
+change_domain-id() {
+  export ROS_DOMAIN_ID=$1
+}
+
+# Shigure Settings
+shigure() {
+  case $1 in
+    "bg_subtraction" | "subtraction_analysis" | "object_detection" | "object_tracking" | "people_tracking" | "contact_detection" | "record_event")
+      echo "start $1";
+      . ~/ros2_ws/install/setup.bash &&
+      ros2 run shigure_core $1 --ros-args --params-file ~/ros2_ws/src/shigure_core/shigure_core/shigure_core/nodes/params/$1_params.yml;;
+    "pose_save")
+      echo "start $1";
+      . ~/ros2_ws/install/setup.bash &&
+      ros2 run shigure_core $1;;
+    "launch")
+      . ~/ros2_ws/install/setup.bash &&
+      ros2 launch shigure_core shigure_core_launch.py;;
+    *)
+      echo "undefined $1 node";;
+  esac
+}
+shigure_node() {
+  local cur prev opts
+  _get_comp_words_by_ref -n : cur prev
+  opts="
+    bg_subtraction 
+    subtraction_analysis 
+    object_detection 
+    object_tracking 
+    people_tracking 
+    contact_detection 
+    record_event 
+    pose_save
+    launch
+  "
+
+  COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+}
+complete -F shigure_node shigure
