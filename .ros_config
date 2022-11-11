@@ -1,8 +1,9 @@
 # ROS Settings
 if [ -d /opt/ros/melodic ]; then
-melodic-setup() {
-  source /opt/ros/melodic/setup.bash
-}
+  melodic-setup() {
+    source /opt/ros/melodic/setup.bash
+  }
+fi
 if [ -d /opt/ros/noetic ]; then
   noetic-setup() {
     source /opt/ros/noetic/setup.bash
@@ -11,17 +12,20 @@ fi
 
 # ROS2 Settings
 if [ -d /opt/ros/dashing ]; then
-dashing-setup() {
-  source /opt/ros/dashing/setup.bash
-}
+  dashing-setup() {
+    source /opt/ros/dashing/setup.bash
+  }
+fi
 if [ -d /opt/ros/foxy ]; then
-foxy-setup() {
-  source /opt/ros/foxy/setup.bash
-}
+  foxy-setup() {
+    source /opt/ros/foxy/setup.bash
+  }
+fi
 if [ -d /opt/ros/humble ]; then
-humble-setup() {
-  source /opt/ros/foxy/setup.bash
-}
+  humble-setup() {
+    source /opt/ros/foxy/setup.bash
+  }
+fi
 
 # Change ROS_DOMAIN_ID
 change_domain-id() {
