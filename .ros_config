@@ -23,7 +23,7 @@ if [ -d /opt/ros/foxy ]; then
 fi
 if [ -d /opt/ros/humble ]; then
   humble-setup() {
-    source /opt/ros/foxy/setup.bash
+    source /opt/ros/humble/setup.bash
   }
 fi
 
