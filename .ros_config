@@ -43,6 +43,21 @@ shigure() {
       echo "start $1";
       . ~/ros2_ws/install/setup.bash &&
       ros2 run shigure_core $1;;
+    "pose_start")
+      echo "send start -> pose_save_node";
+      ros2 topic pub --once /HL2/pose_record_signal std_msgs/msg/String "data: Start";;
+    "pose_end")
+      echo "send end -> pose_save_node";
+      ros2 topic pub --once /HL2/pose_record_signal std_msgs/msg/String "data: End";;
+    "record")
+      echo "start record node";
+      gnome-terminal --tab -t 'record_event' -- bash -c ". /opt/ros/foxy/setup.bash; . ~/ros2_ws/install/setup.bash; ros2 run shigure_core record_event --ros-args --params-file ~/ros2_ws/src/shigure_core/shigure_core/shigure_core/nodes/params/record_event_params.yml; endyarnstart() { exec bash; }; trap endyarnstart INT; yarn start;" &&
+      gnome-terminal --tab -t 'pose_save' -- bash -c ". /opt/ros/foxy/setup.bash; . ~/ros2_ws/install/setup.bash; ros2 run shigure_core pose_save; endyarnstart() { exec bash; }; trap endyarnstart INT; yarn start;";;
+    "service")
+      echo "start shigure $1s";
+      gnome-terminal --tab -t 'event_playback_service' -- bash -c ". /opt/ros/foxy/setup.bash; . ~/ros2_ws/install/setup.bash; ros2 run shigure_event_playback_ros2 event_playback_service; endyarnstart() { exec bash; }; trap endyarnstart INT; yarn start;" &&
+      source ~/ros2_ws/install/setup.bash &&
+      ros2 launch associated_event_info associated_event_info_launch.py;;
     "launch")
       . ~/ros2_ws/install/setup.bash &&
       ros2 launch shigure_core shigure_core_launch.py;;
@@ -62,6 +77,10 @@ shigure_node() {
     contact_detection 
     record_event 
     pose_save
+    pose_start
+    pose_end
+    record
+    service
     launch
   "
 
