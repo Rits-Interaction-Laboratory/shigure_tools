@@ -55,8 +55,8 @@ shigure() {
       gnome-terminal --tab -t 'pose_save' -- bash -c ". /opt/ros/foxy/setup.bash; . ~/ros2_ws/install/setup.bash; ros2 run shigure_core pose_save; endyarnstart() { exec bash; }; trap endyarnstart INT; yarn start;";;
     "service")
       echo "start shigure $1s";
-      gnome-terminal --tab -t 'event_playback_service' -- bash -c ". /opt/ros/foxy/setup.bash; . ~/ros2_ws/install/setup.bash; ros2 run shigure_event_playback_ros2 event_playback_service; endyarnstart() { exec bash; }; trap endyarnstart INT; yarn start;" &&
       source ~/ros2_ws/install/setup.bash &&
+      ros2 launch shigure_event_playback_ros2 shigure_event_playback_launch.py &&
       ros2 launch associated_event_info associated_event_info_launch.py;;
     "launch")
       . ~/ros2_ws/install/setup.bash &&
